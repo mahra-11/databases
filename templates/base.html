@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Air Ticket Reservation{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='chart.umd.js') }}"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="{{ url_for('public.home') }}">✈ Air Ticket Reservation</a>
+  <nav>
+    {% if session_type == 'customer' %}
+      <a href="{{ url_for('customer.home') }}">Home</a>
+      <a href="{{ url_for('customer.my_flights') }}">My flights</a>
+      <a href="{{ url_for('customer.search') }}">Search &amp; buy</a>
+      <a href="{{ url_for('customer.spending') }}">My spending</a>
+    {% elif session_type == 'agent' %}
+      <a href="{{ url_for('agent.home') }}">Home</a>
+      <a href="{{ url_for('agent.my_flights') }}">My flights</a>
+      <a href="{{ url_for('agent.search') }}">Search &amp; buy</a>
+      <a href="{{ url_for('agent.commission') }}">Commission</a>
+      <a href="{{ url_for('agent.top_customers') }}">Top customers</a>
+    {% elif session_type == 'staff' %}
+      <a href="{{ url_for('staff.home') }}">Home</a>
+      <a href="{{ url_for('staff.flights') }}">Flights</a>
+      <a href="{{ url_for('staff.reports') }}">Reports</a>
+    {% else %}
+      <a href="{{ url_for('public.search') }}">Search flights</a>
+      <a href="{{ url_for('public.status') }}">Flight status</a>
+    {% endif %}
+    {% if session_user %}
+      <a href="{{ url_for('auth.logout') }}">Log out</a>
+    {% else %}
+      <a href="{{ url_for('auth.login') }}">Log in</a>
+      <a href="{{ url_for('auth.register') }}">Register</a>
+    {% endif %}
+  </nav>
+  {% if session_user %}<span class="who">{{ session_user }} ({{ session_type }})</span>{% endif %}
+</header>
+<main>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <div class="flash {{ category if category in ['error', 'success', 'info'] else 'info' }}">{{ message }}</div>
+    {% endfor %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

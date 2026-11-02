@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% from "_macros.html" import flight_table %}
+{% block content %}
+<h1>Frequent customers of {{ airline }}</h1>
+<div class="grid">
+  <div class="card">
+    <h2>Most frequent customer (last year)</h2>
+    {% for c in most_frequent %}
+      <div class="stat">{{ c.name }}</div>
+      <div class="muted">{{ c.email }} — {{ c.flights }} flight(s)</div>
+    {% else %}<p class="muted">No flights taken in the last year.</p>{% endfor %}
+  </div>
+  <div class="card">
+    <h2>Top 5 (last year)</h2>
+    <table>
+      {% for c in ranking %}
+      <tr><td>{{ c.name }}<br><span class="muted">{{ c.email }}</span></td><td>{{ c.flights }}</td>
+          <td><a href="{{ url_for('staff.frequent_customers', email=c.email) }}">Flights</a></td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+<div class="card">
+  <h2>All flights a customer has taken on {{ airline }}</h2>
+  <form class="inline" method="get">
+    <label>Customer email<input type="email" name="email" value="{{ email }}" required></label>
+    <button type="submit">Show flights</button>
+  </form>
+</div>
+{% if customer_flights is not none %}
+  <h2>{{ email }}: {{ customer_flights|length }} ticket(s)</h2>
+  {{ flight_table(customer_flights, show_ticket=False) }}
+{% endif %}
+{% endblock %}

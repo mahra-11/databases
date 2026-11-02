@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from "_macros.html" import bar_chart %}
+{% block content %}
+<h1>Top customers</h1>
+<div class="grid">
+  <div class="card">
+    <h2>Top 5 by tickets bought (past 6 months)</h2>
+    {% if by_tickets %}
+      {{ bar_chart('ticketsChart', by_tickets|map(attribute='customer_email')|list, by_tickets|map(attribute='tickets')|list, 'Tickets') }}
+      <table>{% for r in by_tickets %}<tr><td>{{ r.name }}<br><span class="muted">{{ r.customer_email }}</span></td><td>{{ r.tickets }} ticket(s)</td></tr>{% endfor %}</table>
+    {% else %}<p class="muted">No tickets in the past 6 months.</p>{% endif %}
+  </div>
+  <div class="card">
+    <h2>Top 5 by commission (past year)</h2>
+    {% if by_commission %}
+      {{ bar_chart('commissionChart', by_commission|map(attribute='customer_email')|list, by_commission|map(attribute='commission')|map('float')|list, 'Commission (¥)', '#f59e0b') }}
+      <table>{% for r in by_commission %}<tr><td>{{ r.name }}<br><span class="muted">{{ r.customer_email }}</span></td><td>¥{{ r.commission|money }}</td></tr>{% endfor %}</table>
+    {% else %}<p class="muted">No commission in the past year.</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

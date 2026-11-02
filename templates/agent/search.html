@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% from "_macros.html" import search_form, flight_table %}
+{% block content %}
+<h1>Search flights &amp; buy tickets for a customer</h1>
+{% if not airlines %}
+  <div class="flash error">You do not work for any airline yet, so you cannot buy tickets. Ask an airline Admin to add you.</div>
+{% else %}
+  <p class="muted">Only flights of airlines you work for are shown: {{ airlines|join(', ') }}.</p>
+{% endif %}
+<div class="card">{{ search_form(url_for('agent.search'), args) }}</div>
+{% if flights is not none %}
+  <h2>{{ flights|length }} flight(s) found</h2>
+  {{ flight_table(flights, buy_url=url_for('agent.purchase'), ask_customer=True) }}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Register</h1>
+<p>
+  <a class="button {% if user_type != 'customer' %}secondary{% endif %}" href="{{ url_for('auth.register', user_type='customer') }}">Customer</a>
+  <a class="button {% if user_type != 'agent' %}secondary{% endif %}" href="{{ url_for('auth.register', user_type='agent') }}">Booking agent</a>
+  <a class="button {% if user_type != 'staff' %}secondary{% endif %}" href="{{ url_for('auth.register', user_type='staff') }}">Airline staff</a>
+</p>
+<div class="card">
+<form class="stack" method="post" action="{{ url_for('auth.register') }}">
+  <input type="hidden" name="user_type" value="{{ user_type }}">
+  {% if user_type == 'customer' %}
+    <h2>New customer</h2>
+    <label>Email<input type="email" name="email" value="{{ form.get('email', '') }}" required></label>
+    <label>Full name<input name="name" value="{{ form.get('name', '') }}" required></label>
+    <label>Building number<input name="building_number" value="{{ form.get('building_number', '') }}" required></label>
+    <label>Street<input name="street" value="{{ form.get('street', '') }}" required></label>
+    <label>City<input name="city" value="{{ form.get('city', '') }}" required></label>
+    <label>State<input name="state" value="{{ form.get('state', '') }}" required></label>
+    <label>Phone number<input name="phone_number" value="{{ form.get('phone_number', '') }}" required></label>
+    <label>Passport number<input name="passport_number" value="{{ form.get('passport_number', '') }}" required></label>
+    <label>Passport expiration<input type="date" name="passport_expiration" value="{{ form.get('passport_expiration', '') }}" required></label>
+    <label>Passport country<input name="passport_country" value="{{ form.get('passport_country', '') }}" required></label>
+    <label>Date of birth<input type="date" name="date_of_birth" value="{{ form.get('date_of_birth', '') }}" required></label>
+  {% elif user_type == 'agent' %}
+    <h2>New booking agent</h2>
+    <label>Email<input type="email" name="email" value="{{ form.get('email', '') }}" required></label>
+    <p class="muted">Your booking agent ID is assigned automatically. An airline staff member must add you to their airline before you can sell tickets.</p>
+  {% else %}
+    <h2>New airline staff</h2>
+    <label>Username<input name="username" value="{{ form.get('username', '') }}" required></label>
+    <label>First name<input name="first_name" value="{{ form.get('first_name', '') }}" required></label>
+    <label>Last name<input name="last_name" value="{{ form.get('last_name', '') }}" required></label>
+    <label>Date of birth<input type="date" name="date_of_birth" value="{{ form.get('date_of_birth', '') }}" required></label>
+    <label>Airline
+      <select name="airline_name" required>
+        {% for a in airlines %}<option {% if form.get('airline_name') == a %}selected{% endif %}>{{ a }}</option>{% endfor %}
+      </select>
+    </label>
+    <p class="muted">New staff have no permissions until an Admin of the airline grants them.</p>
+  {% endif %}
+  <label>Password<input type="password" name="password" required></label>
+  <label>Confirm password<input type="password" name="confirm_password" required></label>
+  <button type="submit">Register</button>
+</form>
+</div>
+{% endblock %}

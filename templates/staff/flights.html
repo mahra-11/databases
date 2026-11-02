@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% from "_macros.html" import flight_table %}
+{% block content %}
+<h1>{{ airline }} flights</h1>
+<div class="card">
+  <form class="inline" method="get">
+    <label>Departing from<input type="date" name="start" value="{{ args.get('start', '') }}"></label>
+    <label>to<input type="date" name="end" value="{{ args.get('end', '') }}"></label>
+    <label>Source city/airport<input name="source" value="{{ args.get('source', '') }}"></label>
+    <label>Destination city/airport<input name="destination" value="{{ args.get('destination', '') }}"></label>
+    <button type="submit">Filter</button>
+    <a class="button secondary" href="{{ url_for('staff.flights') }}">Next 30 days</a>
+  </form>
+  <p class="muted">{% if filtered %}Showing past, current and future flights matching your filters.{% else %}Showing upcoming flights in the next 30 days. Use the filters to see past or later flights.{% endif %}</p>
+</div>
+{{ flight_table(flights, staff_links=True) }}
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% from "_macros.html" import flight_table %}
+{% block content %}
+<h1>Hello, {{ customer.name }}</h1>
+<div class="grid">
+  <div class="card links">
+    <h2>What would you like to do?</h2>
+    <a href="{{ url_for('customer.my_flights') }}">View my flights</a>
+    <a href="{{ url_for('customer.search') }}">Search for flights &amp; purchase tickets</a>
+    <a href="{{ url_for('customer.spending') }}">Track my spending</a>
+    <a href="{{ url_for('public.status') }}">Check a flight's status</a>
+    <a href="{{ url_for('auth.logout') }}">Log out</a>
+  </div>
+</div>
+<h2>My upcoming flights</h2>
+{{ flight_table(flights, show_ticket=True, show_agent=True) }}
+{% endblock %}

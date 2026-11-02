@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from "_macros.html" import search_form %}
+{% block content %}
+<h1>Welcome</h1>
+<div class="grid">
+  <div class="card">
+    <h2>Search upcoming flights</h2>
+    {{ search_form(url_for('public.search'), {}) }}
+  </div>
+  <div class="card">
+    <h2>Check a flight's status</h2>
+    <form class="inline" method="get" action="{{ url_for('public.status') }}">
+      <label>Flight number<input name="flight_num" required></label>
+      <label>Date<input type="date" name="date"></label>
+      <button type="submit">Check</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>Your account</h2>
+    {% if session_user %}
+      <p>Logged in as <b>{{ session_user }}</b>. <a href="{{ url_for('public.home') }}">Go to your home page</a>.</p>
+    {% else %}
+      <p><a class="button" href="{{ url_for('auth.login') }}">Log in</a>
+         <a class="button secondary" href="{{ url_for('auth.register') }}">Register</a></p>
+      <p class="muted">Customers, booking agents and airline staff all log in here.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

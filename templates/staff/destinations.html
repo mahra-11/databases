@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Top destinations — {{ airline }}</h1>
+<p class="muted">Ranked by tickets on flights that departed in the period.</p>
+<div class="grid">
+  {% for title, rows in [('Last 3 months', three_months), ('Last year', year)] %}
+  <div class="card">
+    <h2>{{ title }}</h2>
+    {% if rows %}
+    <ol>{% for r in rows %}<li><b>{{ r.city }}</b> — {{ r.tickets }} ticket(s)</li>{% endfor %}</ol>
+    {% else %}<p class="muted">No flights in this period.</p>{% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

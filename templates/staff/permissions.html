@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Grant permissions — {{ airline }}</h1>
+<div class="card">
+<form class="inline" method="post">
+  <label>Staff member
+    <select name="username" required>{% for s in staff %}<option value="{{ s.username }}">{{ s.username }} ({{ s.first_name }} {{ s.last_name }})</option>{% endfor %}</select>
+  </label>
+  <label>Permission
+    <select name="permission">{% for c in choices %}<option>{{ c }}</option>{% endfor %}</select>
+  </label>
+  <button type="submit">Grant</button>
+</form>
+</div>
+<h2>Staff of {{ airline }}</h2>
+<div class="table-wrap"><table>
+  <tr><th>Username</th><th>Name</th><th>Permissions</th></tr>
+  {% for s in staff %}<tr><td>{{ s.username }}</td><td>{{ s.first_name }} {{ s.last_name }}</td><td>{{ s.permissions or '—' }}</td></tr>{% endfor %}
+</table></div>
+{% endblock %}

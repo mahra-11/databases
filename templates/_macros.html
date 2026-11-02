@@ -1,0 +1,93 @@
+{% macro flight_table(flights, buy_url=None, ask_customer=False, show_ticket=False, show_customer=False, show_agent=False, staff_links=False) %}
+{% if not flights %}
+  <p class="muted">No flights found.</p>
+{% else %}
+<div class="table-wrap"><table>
+  <tr>
+    {% if show_ticket %}<th>Ticket</th>{% endif %}
+    <th>Airline</th><th>Flight</th><th>From</th><th>Departure</th><th>To</th><th>Arrival</th>
+    <th>Price</th><th>Status</th><th>Seats sold</th>
+    {% if show_customer %}<th>Customer</th>{% endif %}
+    {% if show_agent %}<th>Booked via</th>{% endif %}
+    {% if show_ticket %}<th>Purchased</th>{% endif %}
+    {% if buy_url or staff_links %}<th></th>{% endif %}
+  </tr>
+  {% for f in flights %}
+  <tr>
+    {% if show_ticket %}<td>#{{ f.ticket_id }}</td>{% endif %}
+    <td>{{ f.airline_name }}</td>
+    <td>{{ f.flight_num }}</td>
+    <td>{{ f.departure_airport }}<br><span class="muted">{{ f.departure_city }}</span></td>
+    <td>{{ f.departure_time|dt }}</td>
+    <td>{{ f.arrival_airport }}<br><span class="muted">{{ f.arrival_city }}</span></td>
+    <td>{{ f.arrival_time|dt }}</td>
+    <td>¥{{ f.price|money }}</td>
+    <td><span class="tag {{ f.status }}">{{ f.status }}</span></td>
+    <td>{{ f.sold }} / {{ f.seats }}</td>
+    {% if show_customer %}<td>{{ f.customer_email }}</td>{% endif %}
+    {% if show_agent %}<td>{{ f.booking_agent_email or "direct" }}</td>{% endif %}
+    {% if show_ticket %}<td>{{ f.purchase_date|dt }}</td>{% endif %}
+    {% if buy_url %}
+    <td>
+      {% if f.sold >= f.seats %}<span class="muted">Sold out</span>
+      {% elif f.status == "Cancelled" %}<span class="muted">Cancelled</span>
+      {% else %}
+      <form method="post" action="{{ buy_url }}" class="cell-form"
+            onsubmit="return confirm('Buy a ticket for {{ f.airline_name }} flight {{ f.flight_num }} (¥{{ f.price|money }})?');">
+        <input type="hidden" name="airline_name" value="{{ f.airline_name }}">
+        <input type="hidden" name="flight_num" value="{{ f.flight_num }}">
+        {% if ask_customer %}<input type="email" name="customer_email" placeholder="customer email" required>{% endif %}
+        <button type="submit">Buy</button>
+      </form>
+      {% endif %}
+    </td>
+    {% endif %}
+    {% if staff_links %}
+    <td><a href="{{ url_for('staff.flight_customers', flight_num=f.flight_num) }}">Customers</a></td>
+    {% endif %}
+  </tr>
+  {% endfor %}
+</table></div>
+{% endif %}
+{% endmacro %}
+
+{% macro search_form(action, args) %}
+<form class="inline" method="get" action="{{ action }}">
+  <label>From (city or airport)<input name="source" value="{{ args.get('source', '') }}" placeholder="e.g. Shanghai or PVG"></label>
+  <label>To (city or airport)<input name="destination" value="{{ args.get('destination', '') }}" placeholder="e.g. Beijing or PEK"></label>
+  <label>Date (optional)<input type="date" name="date" value="{{ args.get('date', '') }}"></label>
+  <button type="submit">Search</button>
+</form>
+{% endmacro %}
+
+{% macro range_form(action, start, end, extra='') %}
+<form class="inline" method="get" action="{{ action }}">
+  <label>From<input type="date" name="start" value="{{ start or '' }}"></label>
+  <label>To<input type="date" name="end" value="{{ end or '' }}"></label>
+  <button type="submit">Apply</button>
+  <a class="button secondary" href="{{ action }}">Reset</a>
+  {{ extra|safe }}
+</form>
+{% endmacro %}
+
+{% macro bar_chart(id, labels, values, label, color='#3b82f6') %}
+<div class="chart-box"><canvas id="{{ id }}"></canvas></div>
+<script>
+new Chart(document.getElementById({{ id|tojson }}), {
+  type: 'bar',
+  data: { labels: {{ labels|tojson }}, datasets: [{ label: {{ label|tojson }}, data: {{ values|tojson }}, backgroundColor: {{ color|tojson }} }] },
+  options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+});
+</script>
+{% endmacro %}
+
+{% macro pie_chart(id, labels, values) %}
+<div class="chart-box"><canvas id="{{ id }}"></canvas></div>
+<script>
+new Chart(document.getElementById({{ id|tojson }}), {
+  type: 'pie',
+  data: { labels: {{ labels|tojson }}, datasets: [{ data: {{ values|tojson }}, backgroundColor: ['#3b82f6', '#f59e0b'] }] },
+  options: { maintainAspectRatio: false }
+});
+</script>
+{% endmacro %}

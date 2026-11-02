@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h1>Goodbye!</h1>
+  <p>You have been logged out.</p>
+  <p><a class="button" href="{{ url_for('auth.login') }}">Log in again</a>
+     <a class="button secondary" href="{{ url_for('public.index') }}">Home</a></p>
+</div>
+{% endblock %}

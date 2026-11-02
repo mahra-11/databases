@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% from "_macros.html" import search_form, flight_table %}
+{% block content %}
+<h1>Search upcoming flights</h1>
+<div class="card">{{ search_form(url_for('public.search'), args) }}</div>
+{% if flights is not none %}
+  <h2>{{ flights|length }} flight(s) found</h2>
+  {{ flight_table(flights) }}
+  {% if not session_user and flights %}<p class="muted"><a href="{{ url_for('auth.login') }}">Log in</a> to buy tickets.</p>{% endif %}
+{% endif %}
+{% endblock %}

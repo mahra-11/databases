@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% macro agent_table(rows, col, label, money=False) %}
+  {% if rows %}
+  <table><tr><th>Agent</th><th>ID</th><th>{{ label }}</th></tr>
+  {% for r in rows %}<tr><td>{{ r.email }}</td><td>{{ r.booking_agent_id }}</td><td>{% if money %}¥{{ r[col]|money }}{% else %}{{ r[col] }}{% endif %}</td></tr>{% endfor %}
+  </table>
+  {% else %}<p class="muted">No sales by booking agents in this period.</p>{% endif %}
+{% endmacro %}
+{% block content %}
+<h1>Top booking agents for {{ airline }}</h1>
+<div class="grid">
+  <div class="card"><h2>By tickets sold — past month</h2>{{ agent_table(month, 'tickets', 'Tickets') }}</div>
+  <div class="card"><h2>By tickets sold — past year</h2>{{ agent_table(year, 'tickets', 'Tickets') }}</div>
+  <div class="card"><h2>By commission — past year</h2>{{ agent_table(by_commission, 'commission', 'Commission', True) }}</div>
+</div>
+{% endblock %}

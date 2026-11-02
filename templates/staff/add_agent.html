@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Add a booking agent to {{ airline }}</h1>
+<div class="card">
+<form class="inline" method="post">
+  <label>Booking agent email<input type="email" name="email" required></label>
+  <button type="submit">Add</button>
+</form>
+<p class="muted">The agent must already be registered. Once added, they can sell {{ airline }} tickets.</p>
+</div>
+<h2>Booking agents working for {{ airline }}</h2>
+<div class="table-wrap"><table>
+  <tr><th>Email</th><th>Agent ID</th></tr>
+  {% for a in agents %}<tr><td>{{ a.email }}</td><td>{{ a.booking_agent_id }}</td></tr>{% else %}<tr><td colspan="2" class="muted">None yet.</td></tr>{% endfor %}
+</table></div>
+{% endblock %}

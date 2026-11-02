@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "_macros.html" import flight_table %}
+{% block content %}
+<h1>Create a new {{ airline }} flight</h1>
+<div class="card">
+<form class="stack" method="post">
+  <label>Flight number<input type="number" min="1" name="flight_num" value="{{ form.get('flight_num', '') }}" required></label>
+  <label>Departure airport
+    <select name="departure_airport" required>
+      {% for a in airports %}<option value="{{ a.name }}" {% if form.get('departure_airport') == a.name %}selected{% endif %}>{{ a.name }} ({{ a.city }})</option>{% endfor %}
+    </select>
+  </label>
+  <label>Departure time<input type="datetime-local" name="departure_time" value="{{ form.get('departure_time', '') }}" required></label>
+  <label>Arrival airport
+    <select name="arrival_airport" required>
+      {% for a in airports %}<option value="{{ a.name }}" {% if form.get('arrival_airport') == a.name %}selected{% endif %}>{{ a.name }} ({{ a.city }})</option>{% endfor %}
+    </select>
+  </label>
+  <label>Arrival time<input type="datetime-local" name="arrival_time" value="{{ form.get('arrival_time', '') }}" required></label>
+  <label>Price (¥)<input type="number" min="0" step="0.01" name="price" value="{{ form.get('price', '') }}" required></label>
+  <label>Airplane
+    <select name="airplane_id" required>
+      {% for p in airplanes %}<option value="{{ p.id }}" {% if form.get('airplane_id') == p.id|string %}selected{% endif %}>#{{ p.id }} ({{ p.seats }} seats)</option>{% endfor %}
+    </select>
+  </label>
+  <label>Status
+    <select name="status">{% for s in statuses %}<option {% if form.get('status', 'Upcoming') == s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select>
+  </label>
+  <button type="submit">Create flight</button>
+</form>
+{% if not airplanes %}<p class="flash error">Your airline has no airplanes yet. <a href="{{ url_for('staff.add_airplane') }}">Add one first</a>.</p>{% endif %}
+</div>
+<h2>Upcoming flights in the next 30 days</h2>
+{{ flight_table(flights, staff_links=True) }}
+{% endblock %}
