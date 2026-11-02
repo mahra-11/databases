@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% from "_macros.html" import flight_table %}
+{% block content %}
+<h1>Booking agent {{ session_user }} <span class="muted">(ID {{ info.booking_agent_id }})</span></h1>
+<div class="grid">
+  <div class="card links">
+    <h2>What would you like to do?</h2>
+    <a href="{{ url_for('agent.my_flights') }}">View my flights</a>
+    <a href="{{ url_for('agent.search') }}">Search for flights &amp; purchase tickets for customers</a>
+    <a href="{{ url_for('agent.commission') }}">View my commission</a>
+    <a href="{{ url_for('agent.top_customers') }}">View top customers</a>
+    <a href="{{ url_for('auth.logout') }}">Log out</a>
+  </div>
+  <div class="card">
+    <h2>Airlines I work for</h2>
+    {% if airlines %}<ul>{% for a in airlines %}<li>{{ a }}</li>{% endfor %}</ul>
+    {% else %}<p class="muted">None yet. An airline Admin must add you before you can sell tickets.</p>{% endif %}
+  </div>
+</div>
+<h2>Upcoming flights I booked</h2>
+{{ flight_table(flights, show_ticket=True, show_customer=True) }}
+{% endblock %}

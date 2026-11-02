@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Add an airport</h1>
+<div class="card">
+<form class="inline" method="post">
+  <label>Airport code / name<input name="name" maxlength="50" required placeholder="e.g. CTU"></label>
+  <label>City<input name="city" maxlength="50" required placeholder="e.g. Chengdu"></label>
+  <button type="submit">Add airport</button>
+</form>
+</div>
+<h2>All airports</h2>
+<div class="table-wrap"><table>
+  <tr><th>Airport</th><th>City</th></tr>
+  {% for a in airports %}<tr><td>{{ a.name }}</td><td>{{ a.city }}</td></tr>{% endfor %}
+</table></div>
+{% endblock %}

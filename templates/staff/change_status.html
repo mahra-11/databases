@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "_macros.html" import flight_table %}
+{% block content %}
+<h1>Change flight status</h1>
+<div class="card">
+<form class="inline" method="post">
+  <label>Flight
+    <select name="flight_num" required>
+      {% for f in flights %}
+      <option value="{{ f.flight_num }}" {% if selected == f.flight_num|string %}selected{% endif %}>
+        {{ f.flight_num }}: {{ f.departure_airport }} → {{ f.arrival_airport }}, {{ f.departure_time|dt }} ({{ f.status }})</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>New status
+    <select name="status">{% for s in statuses %}<option>{{ s }}</option>{% endfor %}</select>
+  </label>
+  <button type="submit">Update</button>
+</form>
+</div>
+<h2>Current and upcoming flights</h2>
+{{ flight_table(flights) }}
+{% endblock %}

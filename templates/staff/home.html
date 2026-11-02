@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ staff.first_name }} {{ staff.last_name }} <span class="muted">— {{ staff.airline_name }}</span></h1>
+<p>Permissions:
+  {% for p in permissions %}<span class="tag">{{ p }}</span> {% else %}<span class="muted">none (ask an Admin of your airline)</span>{% endfor %}
+</p>
+<div class="grid">
+  <div class="card links">
+    <h2>Flights</h2>
+    <a href="{{ url_for('staff.flights') }}">View my airline's flights</a>
+    {% if 'Admin' in permissions %}<a href="{{ url_for('staff.create_flight') }}">Create a new flight</a>{% endif %}
+    {% if 'Operator' in permissions %}<a href="{{ url_for('staff.change_status') }}">Change flight status</a>{% endif %}
+  </div>
+  <div class="card links">
+    <h2>Analytics</h2>
+    <a href="{{ url_for('staff.booking_agents') }}">Top booking agents</a>
+    <a href="{{ url_for('staff.frequent_customers') }}">Frequent customers</a>
+    <a href="{{ url_for('staff.reports') }}">Ticket sales reports</a>
+    <a href="{{ url_for('staff.revenue') }}">Revenue: direct vs. indirect</a>
+    <a href="{{ url_for('staff.destinations') }}">Top destinations</a>
+  </div>
+  {% if 'Admin' in permissions %}
+  <div class="card links">
+    <h2>Administration</h2>
+    <a href="{{ url_for('staff.add_airplane') }}">Add an airplane</a>
+    <a href="{{ url_for('staff.add_airport') }}">Add an airport</a>
+    <a href="{{ url_for('staff.permissions') }}">Grant permissions</a>
+    <a href="{{ url_for('staff.add_agent') }}">Add booking agents</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

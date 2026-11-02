@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from "_macros.html" import range_form, bar_chart %}
+{% block content %}
+<h1>Track my spending</h1>
+<div class="card">{{ range_form(url_for('customer.spending'), start if custom else '', end if custom else '') }}</div>
+<div class="grid">
+  <div class="card">
+    <div class="muted">{% if custom %}Spent from {{ start }} to {{ end }}{% else %}Spent in the past year ({{ start }} – {{ end }}){% endif %}</div>
+    <div class="stat">¥{{ total.total|money }}</div>
+    <div class="muted">{{ total.tickets }} ticket(s)</div>
+  </div>
+</div>
+<div class="card">
+  <h2>Month-wise spending {% if not custom %}(last 6 months){% else %}({{ chart_start }} – {{ end }}){% endif %}</h2>
+  {{ bar_chart('spendChart', labels, values, 'Amount spent (¥)') }}
+  <div class="table-wrap" style="margin-top:12px"><table>
+    <tr><th>Month</th>{% for l in labels %}<th>{{ l }}</th>{% endfor %}</tr>
+    <tr><td>Spent (¥)</td>{% for v in values %}<td>{{ v|money }}</td>{% endfor %}</tr>
+  </table></div>
+</div>
+{% endblock %}

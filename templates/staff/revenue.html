@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from "_macros.html" import pie_chart %}
+{% block content %}
+<h1>Revenue comparison — {{ airline }}</h1>
+<p class="muted">Direct sales: bought by the customer. Indirect sales: bought through a booking agent.</p>
+<div class="grid">
+  {% for title, data, id in [('Last month', month, 'pieMonth'), ('Last year', year, 'pieYear')] %}
+  <div class="card">
+    <h2>{{ title }}</h2>
+    {% if data.direct + data.indirect > 0 %}
+      {{ pie_chart(id, ['Direct', 'Indirect (agents)'], [data.direct, data.indirect]) }}
+    {% else %}<p class="muted">No revenue in this period.</p>{% endif %}
+    <table>
+      <tr><td>Direct</td><td>¥{{ data.direct|money }}</td></tr>
+      <tr><td>Indirect</td><td>¥{{ data.indirect|money }}</td></tr>
+      <tr><th>Total</th><th>¥{{ (data.direct + data.indirect)|money }}</th></tr>
+    </table>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

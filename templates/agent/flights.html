@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_macros.html" import flight_table %}
+{% block content %}
+<h1>Flights I booked for customers</h1>
+<div class="card">
+  <form class="inline" method="get">
+    <label>Show
+      <select name="show">
+        {% for v, t in [('upcoming', 'Upcoming'), ('past', 'Past'), ('all', 'All')] %}
+        <option value="{{ v }}" {% if args.get('show', 'upcoming') == v %}selected{% endif %}>{{ t }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Departing from<input type="date" name="start" value="{{ args.get('start', '') }}"></label>
+    <label>to<input type="date" name="end" value="{{ args.get('end', '') }}"></label>
+    <label>Source city/airport<input name="source" value="{{ args.get('source', '') }}"></label>
+    <label>Destination city/airport<input name="destination" value="{{ args.get('destination', '') }}"></label>
+    <label>Customer email<input name="customer" value="{{ args.get('customer', '') }}"></label>
+    <button type="submit">Filter</button>
+    <a class="button secondary" href="{{ url_for('agent.my_flights') }}">Reset</a>
+  </form>
+</div>
+{{ flight_table(flights, show_ticket=True, show_customer=True) }}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from "_macros.html" import bar_chart %}
+{% block content %}
+<h1>Ticket sales — {{ airline }}</h1>
+<div class="card">
+  <form class="inline" method="get">
+    <label>From<input type="date" name="start" value="{{ start }}"></label>
+    <label>To<input type="date" name="end" value="{{ end }}"></label>
+    <button type="submit">Apply</button>
+    <a class="button {% if quick != 'month' %}secondary{% endif %}" href="{{ url_for('staff.reports', range='month') }}">Last month</a>
+    <a class="button {% if quick != 'year' %}secondary{% endif %}" href="{{ url_for('staff.reports', range='year') }}">Last year</a>
+  </form>
+</div>
+<div class="grid">
+  <div class="card"><div class="muted">Tickets sold {{ start }} – {{ end }}</div><div class="stat">{{ total }}</div></div>
+</div>
+<div class="card">
+  <h2>Tickets sold per month</h2>
+  {{ bar_chart('salesChart', labels, values, 'Tickets sold') }}
+</div>
+{% endblock %}

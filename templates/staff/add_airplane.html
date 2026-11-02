@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Add an airplane to {{ airline }}</h1>
+<div class="card">
+<form class="inline" method="post">
+  <label>Airplane ID<input type="number" min="1" name="id" required></label>
+  <label>Number of seats<input type="number" min="1" name="seats" required></label>
+  <button type="submit">Add airplane</button>
+</form>
+</div>
+<h2>All airplanes owned by {{ airline }}</h2>
+<div class="table-wrap"><table>
+  <tr><th>ID</th><th>Seats</th></tr>
+  {% for p in airplanes %}<tr {% if p.id == added %}style="background:#def7ec"{% endif %}><td>#{{ p.id }}</td><td>{{ p.seats }}</td></tr>{% endfor %}
+</table></div>
+{% endblock %}

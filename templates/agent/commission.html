@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% from "_macros.html" import range_form %}
+{% block content %}
+<h1>My commission</h1>
+<p class="muted">Commission is {{ (rate * 100)|round|int }}% of the ticket price.
+  {% if custom %}Showing {{ start }} to {{ end }}.{% else %}Showing the past 30 days ({{ start }} – {{ end }}).{% endif %}</p>
+<div class="card">{{ range_form(url_for('agent.commission'), start if custom else '', end if custom else '') }}</div>
+<div class="grid">
+  <div class="card"><div class="muted">Total commission</div><div class="stat">¥{{ total|money }}</div></div>
+  <div class="card"><div class="muted">Tickets sold</div><div class="stat">{{ tickets }}</div></div>
+  <div class="card"><div class="muted">Average commission per ticket</div><div class="stat">¥{{ average|money }}</div></div>
+</div>
+{% endblock %}
