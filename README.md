@@ -101,7 +101,7 @@ Booking agents earn a fixed **10%** commission on the flight price (`COMMISSION_
   * Staff permissions (`Admin` / `Operator`) are read from `staff_permission` on every request.
   * A staff member's airline is always read from the database. Staff can only view or change their own airline's flights, airplanes, staff and agents.
   * Agents can only buy tickets for airlines listed in `booking_agent_works_for`, and only for registered customers.
-  * Purchases are rejected for flights that are full, already departed, cancelled or missing. The flight row is locked during the purchase (`SELECT … FOR UPDATE`), so two people cannot buy the last seat at the same time.
+  * Purchases are rejected for flights that are full, already departed or missing, and for any flight whose status is not `Upcoming` or `Delayed`. The flight row is locked during the purchase (`SELECT … FOR UPDATE`), so two people cannot buy the last seat at the same time.
 
 ## Team
 

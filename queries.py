@@ -2,6 +2,7 @@
 purchase, monthly bar-chart data, form date parsing)."""
 from datetime import date, datetime, timedelta
 
+import config
 from db import get_db, query_all
 
 # Common SELECT for showing flights: joins the airports (for city names) and
@@ -127,8 +128,8 @@ def purchase_ticket(airline_name, flight_num, customer_email, agent_email=None):
                 raise InputError("That flight does not exist.")
             if not flight["in_future"]:
                 raise InputError("That flight has already departed.")
-            if flight["status"] == "Cancelled":
-                raise InputError("That flight has been cancelled.")
+            if flight["status"] not in config.BOOKABLE_STATUSES:
+                raise InputError('Tickets cannot be bought for a flight with status "%s".' % flight["status"])
             cur.execute(
                 "SELECT COUNT(*) AS sold FROM ticket WHERE airline_name = %s AND flight_num = %s",
                 (airline_name, flight_num),

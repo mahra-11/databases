@@ -30,7 +30,7 @@
     {% if buy_url %}
     <td>
       {% if f.sold >= f.seats %}<span class="muted">Sold out</span>
-      {% elif f.status == "Cancelled" %}<span class="muted">Cancelled</span>
+      {% elif f.status not in ["Upcoming", "Delayed"] %}<span class="muted">Not available</span>
       {% else %}
       <form method="post" action="{{ buy_url }}" class="cell-form"
             onsubmit="return confirm('Buy a ticket for {{ f.airline_name }} flight {{ f.flight_num }} (¥{{ f.price|money }})?');">

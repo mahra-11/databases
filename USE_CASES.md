@@ -131,7 +131,7 @@ INSERT INTO ticket (airline_name, flight_num, customer_email, booking_agent_emai
 VALUES (%s, %s, %s, NULL, NOW());
 COMMIT;
 ```
-The purchase is rejected, and the transaction rolled back, if the flight doesn't exist, has already departed, is cancelled or is full.
+The purchase is rejected, and the transaction rolled back, if the flight doesn't exist, has already departed, is full, or its status is not `Upcoming` or `Delayed` (so `In Progress`, `Arrived` and `Cancelled` flights cannot be bought).
 
 ### 4. Track my spending — `GET /customer/spending`
 By default the page shows the total for the past year and a bar chart of the last 6 months.

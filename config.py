@@ -15,4 +15,8 @@ COMMISSION_RATE = 0.10
 # Values staff can choose from when changing a flight's status.
 FLIGHT_STATUSES = ["Upcoming", "In Progress", "Delayed", "Arrived", "Cancelled"]
 
+# Tickets can only be bought for flights with one of these statuses
+# (not In Progress, Arrived or Cancelled), and only before departure.
+BOOKABLE_STATUSES = ["Upcoming", "Delayed"]
+
 STAFF_PERMISSIONS = ["Admin", "Operator"]
