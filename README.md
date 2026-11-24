@@ -45,6 +45,7 @@ booking agents and airline staff. Each one has their own home page and use cases
 | Booking agent | `agent1@example.com` | works for China Eastern and Air China |
 | Booking agent | `agent2@example.com` | works for Delta |
 | Booking agent | `agent3@example.com` | works for no airline (cannot buy until an Admin adds them) |
+| Booking agent | `agent4@example.com` … `agent8@example.com` | more China Eastern agents (agent4 also Air China, agent8 also Delta), so the top-5 agent lists are full |
 | Customer | `alice@example.com`, `bob@…`, `carol@…`, `david@…`, `emma@…`, `frank@…` | |
 
 China Eastern flight 205 uses a 3-seat airplane that is already full, so you can test the "sold out" check.

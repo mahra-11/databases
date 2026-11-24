@@ -266,9 +266,25 @@ def booking_agents():
            ORDER BY commission DESC, email LIMIT 5""",
         (RATE, airline),
     )
+    # Every booking agent who works for this airline, with their sales (0 if none).
+    all_agents = query_all(
+        """SELECT b.email, b.booking_agent_id,
+                  COUNT(CASE WHEN t.purchase_date >= NOW() - INTERVAL 1 MONTH THEN 1 END) AS tickets_month,
+                  COUNT(CASE WHEN t.purchase_date >= NOW() - INTERVAL 1 YEAR THEN 1 END) AS tickets_year,
+                  COALESCE(SUM(CASE WHEN t.purchase_date >= NOW() - INTERVAL 1 YEAR THEN f.price END), 0) * %s
+                      AS commission_year
+           FROM booking_agent_works_for w
+           JOIN booking_agent b ON b.email = w.agent_email
+           LEFT JOIN ticket t ON t.booking_agent_email = b.email AND t.airline_name = w.airline_name
+           LEFT JOIN flight f ON f.airline_name = t.airline_name AND f.flight_num = t.flight_num
+           WHERE w.airline_name = %s
+           GROUP BY b.email, b.booking_agent_id
+           ORDER BY tickets_year DESC, b.email""",
+        (RATE, airline),
+    )
     return render_template("staff/booking_agents.html", airline=airline,
                            month=top_by_tickets("1 MONTH"), year=top_by_tickets("1 YEAR"),
-                           by_commission=by_commission)
+                           by_commission=by_commission, all_agents=all_agents)
 
 
 # ---------- 7. View frequent customers ----------

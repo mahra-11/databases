@@ -12,6 +12,9 @@
 --   Booking agents:  agent1@example.com (works for China Eastern, Air China)
 --                    agent2@example.com (works for Delta)
 --                    agent3@example.com (works for no airline yet)
+--                    agent4@example.com (China Eastern, Air China)
+--                    agent5@example.com, agent6@example.com, agent7@example.com (China Eastern)
+--                    agent8@example.com (China Eastern, Delta)
 --   Customers:       alice@example.com, bob@example.com, carol@example.com,
 --                    david@example.com, emma@example.com, frank@example.com
 --
@@ -47,12 +50,24 @@ INSERT INTO airplane (id, airline_name, seats) VALUES
 INSERT INTO booking_agent (email, password, booking_agent_id) VALUES
     ('agent1@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 1001),
     ('agent2@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 1002),
-    ('agent3@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 1003);
+    ('agent3@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 1003),
+    ('agent4@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 1004),
+    ('agent5@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 1005),
+    ('agent6@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 1006),
+    ('agent7@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 1007),
+    ('agent8@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 1008);
 
 INSERT INTO booking_agent_works_for (agent_email, airline_name) VALUES
     ('agent1@example.com', 'China Eastern'),
     ('agent1@example.com', 'Air China'),
-    ('agent2@example.com', 'Delta');
+    ('agent2@example.com', 'Delta'),
+    ('agent4@example.com', 'China Eastern'),
+    ('agent4@example.com', 'Air China'),
+    ('agent5@example.com', 'China Eastern'),
+    ('agent6@example.com', 'China Eastern'),
+    ('agent7@example.com', 'China Eastern'),
+    ('agent8@example.com', 'China Eastern'),
+    ('agent8@example.com', 'Delta');
 
 INSERT INTO customer (email, name, password, building_number, street, city, state, phone_number,
                       passport_number, passport_expiration, passport_country, date_of_birth) VALUES
@@ -127,4 +142,45 @@ INSERT INTO ticket (airline_name, flight_num, customer_email, booking_agent_emai
     ('Delta', 501, 'bob@example.com', NULL, NOW() - INTERVAL 100 DAY - INTERVAL 169 MINUTE),
     ('Delta', 502, 'emma@example.com', 'agent2@example.com', NOW() - INTERVAL 15 DAY - INTERVAL 206 MINUTE),
     ('Delta', 502, 'frank@example.com', 'agent2@example.com', NOW() - INTERVAL 14 DAY - INTERVAL 243 MINUTE),
-    ('Delta', 601, 'carol@example.com', 'agent2@example.com', NOW() - INTERVAL 5 DAY - INTERVAL 280 MINUTE);
+    ('Delta', 601, 'carol@example.com', 'agent2@example.com', NOW() - INTERVAL 5 DAY - INTERVAL 280 MINUTE),
+    ('China Eastern', 201, 'alice@example.com', 'agent4@example.com', NOW() - INTERVAL 2 DAY - INTERVAL 0 MINUTE),
+    ('China Eastern', 203, 'bob@example.com', 'agent4@example.com', NOW() - INTERVAL 8 DAY - INTERVAL 53 MINUTE),
+    ('China Eastern', 107, 'carol@example.com', 'agent4@example.com', NOW() - INTERVAL 15 DAY - INTERVAL 106 MINUTE),
+    ('China Eastern', 201, 'david@example.com', 'agent4@example.com', NOW() - INTERVAL 14 DAY - INTERVAL 159 MINUTE),
+    ('China Eastern', 203, 'emma@example.com', 'agent4@example.com', NOW() - INTERVAL 4 DAY - INTERVAL 212 MINUTE),
+    ('China Eastern', 107, 'frank@example.com', 'agent4@example.com', NOW() - INTERVAL 10 DAY - INTERVAL 265 MINUTE),
+    ('China Eastern', 103, 'alice@example.com', 'agent4@example.com', NOW() - INTERVAL 156 DAY - INTERVAL 318 MINUTE),
+    ('China Eastern', 105, 'bob@example.com', 'agent4@example.com', NOW() - INTERVAL 72 DAY - INTERVAL 371 MINUTE),
+    ('China Eastern', 103, 'carol@example.com', 'agent4@example.com', NOW() - INTERVAL 172 DAY - INTERVAL 424 MINUTE),
+    ('China Eastern', 105, 'david@example.com', 'agent4@example.com', NOW() - INTERVAL 88 DAY - INTERVAL 477 MINUTE),
+    ('China Eastern', 103, 'emma@example.com', 'agent4@example.com', NOW() - INTERVAL 156 DAY - INTERVAL 530 MINUTE),
+    ('China Eastern', 105, 'frank@example.com', 'agent4@example.com', NOW() - INTERVAL 72 DAY - INTERVAL 583 MINUTE),
+    ('China Eastern', 201, 'alice@example.com', 'agent5@example.com', NOW() - INTERVAL 2 DAY - INTERVAL 36 MINUTE),
+    ('China Eastern', 203, 'bob@example.com', 'agent5@example.com', NOW() - INTERVAL 8 DAY - INTERVAL 89 MINUTE),
+    ('China Eastern', 107, 'carol@example.com', 'agent5@example.com', NOW() - INTERVAL 15 DAY - INTERVAL 142 MINUTE),
+    ('China Eastern', 201, 'david@example.com', 'agent5@example.com', NOW() - INTERVAL 14 DAY - INTERVAL 195 MINUTE),
+    ('China Eastern', 105, 'emma@example.com', 'agent5@example.com', NOW() - INTERVAL 66 DAY - INTERVAL 248 MINUTE),
+    ('China Eastern', 103, 'frank@example.com', 'agent5@example.com', NOW() - INTERVAL 165 DAY - INTERVAL 301 MINUTE),
+    ('China Eastern', 105, 'alice@example.com', 'agent5@example.com', NOW() - INTERVAL 80 DAY - INTERVAL 354 MINUTE),
+    ('China Eastern', 103, 'bob@example.com', 'agent5@example.com', NOW() - INTERVAL 178 DAY - INTERVAL 407 MINUTE),
+    ('China Eastern', 203, 'carol@example.com', 'agent6@example.com', NOW() - INTERVAL 4 DAY - INTERVAL 460 MINUTE),
+    ('China Eastern', 107, 'david@example.com', 'agent6@example.com', NOW() - INTERVAL 10 DAY - INTERVAL 513 MINUTE),
+    ('China Eastern', 103, 'emma@example.com', 'agent6@example.com', NOW() - INTERVAL 156 DAY - INTERVAL 566 MINUTE),
+    ('China Eastern', 105, 'frank@example.com', 'agent6@example.com', NOW() - INTERVAL 72 DAY - INTERVAL 19 MINUTE),
+    ('China Eastern', 103, 'alice@example.com', 'agent6@example.com', NOW() - INTERVAL 172 DAY - INTERVAL 72 MINUTE),
+    ('China Eastern', 105, 'bob@example.com', 'agent6@example.com', NOW() - INTERVAL 88 DAY - INTERVAL 125 MINUTE),
+    ('China Eastern', 103, 'carol@example.com', 'agent6@example.com', NOW() - INTERVAL 156 DAY - INTERVAL 178 MINUTE),
+    ('China Eastern', 105, 'david@example.com', 'agent6@example.com', NOW() - INTERVAL 72 DAY - INTERVAL 231 MINUTE),
+    ('China Eastern', 103, 'emma@example.com', 'agent6@example.com', NOW() - INTERVAL 172 DAY - INTERVAL 284 MINUTE),
+    ('China Eastern', 106, 'frank@example.com', 'agent7@example.com', NOW() - INTERVAL 21 DAY - INTERVAL 337 MINUTE),
+    ('China Eastern', 202, 'alice@example.com', 'agent7@example.com', NOW() - INTERVAL 7 DAY - INTERVAL 390 MINUTE),
+    ('China Eastern', 204, 'bob@example.com', 'agent7@example.com', NOW() - INTERVAL 18 DAY - INTERVAL 443 MINUTE),
+    ('China Eastern', 105, 'carol@example.com', 'agent7@example.com', NOW() - INTERVAL 66 DAY - INTERVAL 496 MINUTE),
+    ('China Eastern', 103, 'david@example.com', 'agent7@example.com', NOW() - INTERVAL 165 DAY - INTERVAL 549 MINUTE),
+    ('China Eastern', 107, 'emma@example.com', 'agent8@example.com', NOW() - INTERVAL 7 DAY - INTERVAL 2 MINUTE),
+    ('China Eastern', 102, 'frank@example.com', 'agent8@example.com', NOW() - INTERVAL 206 DAY - INTERVAL 55 MINUTE),
+    ('Air China', 401, 'alice@example.com', 'agent4@example.com', NOW() - INTERVAL 4 DAY - INTERVAL 108 MINUTE),
+    ('Air China', 402, 'bob@example.com', 'agent4@example.com', NOW() - INTERVAL 9 DAY - INTERVAL 161 MINUTE),
+    ('Air China', 302, 'carol@example.com', 'agent4@example.com', NOW() - INTERVAL 47 DAY - INTERVAL 214 MINUTE),
+    ('Delta', 601, 'david@example.com', 'agent8@example.com', NOW() - INTERVAL 3 DAY - INTERVAL 267 MINUTE),
+    ('Delta', 502, 'emma@example.com', 'agent8@example.com', NOW() - INTERVAL 18 DAY - INTERVAL 320 MINUTE);

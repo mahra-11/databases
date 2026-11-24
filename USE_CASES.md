@@ -289,6 +289,20 @@ WHERE t.airline_name = %s AND t.purchase_date >= NOW() - INTERVAL 1 YEAR
 GROUP BY t.booking_agent_email, b.booking_agent_id ORDER BY commission DESC LIMIT 5;
 ```
 
+The page also lists **every** booking agent who works for the airline, including agents with no sales:
+```sql
+SELECT b.email, b.booking_agent_id,
+       COUNT(CASE WHEN t.purchase_date >= NOW() - INTERVAL 1 MONTH THEN 1 END) AS tickets_month,
+       COUNT(CASE WHEN t.purchase_date >= NOW() - INTERVAL 1 YEAR  THEN 1 END) AS tickets_year,
+       COALESCE(SUM(CASE WHEN t.purchase_date >= NOW() - INTERVAL 1 YEAR THEN f.price END), 0) * 0.10 AS commission_year
+FROM booking_agent_works_for w
+JOIN booking_agent b ON b.email = w.agent_email
+LEFT JOIN ticket t ON t.booking_agent_email = b.email AND t.airline_name = w.airline_name
+LEFT JOIN flight f ON f.airline_name = t.airline_name AND f.flight_num = t.flight_num
+WHERE w.airline_name = %s
+GROUP BY b.email, b.booking_agent_id ORDER BY tickets_year DESC, b.email;
+```
+
 ### 7. View frequent customers — `GET /staff/customers`
 Most frequent customer = most flights taken on `my_airline` that departed in the last year. If several customers tie, all of them are shown. The page also shows the top 5.
 ```sql

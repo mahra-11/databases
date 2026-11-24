@@ -13,4 +13,13 @@
   <div class="card"><h2>By tickets sold — past year</h2>{{ agent_table(year, 'tickets', 'Tickets') }}</div>
   <div class="card"><h2>By commission — past year</h2>{{ agent_table(by_commission, 'commission', 'Commission', True) }}</div>
 </div>
+<h2>All booking agents working for {{ airline }} ({{ all_agents|length }})</h2>
+<div class="table-wrap"><table>
+  <tr><th>#</th><th>Agent</th><th>ID</th><th>Tickets — past month</th><th>Tickets — past year</th><th>Commission — past year</th></tr>
+  {% for a in all_agents %}
+  <tr><td>{{ loop.index }}</td><td>{{ a.email }}</td><td>{{ a.booking_agent_id }}</td>
+      <td>{{ a.tickets_month }}</td><td>{{ a.tickets_year }}</td><td>¥{{ a.commission_year|money }}</td></tr>
+  {% else %}<tr><td colspan="6" class="muted">No booking agents work for {{ airline }} yet.</td></tr>{% endfor %}
+</table></div>
+{% if session_type == 'staff' %}<p class="muted">Admins can add agents on the <a href="{{ url_for('staff.add_agent') }}">Add booking agents</a> page.</p>{% endif %}
 {% endblock %}
