@@ -2,7 +2,7 @@
 -- All dates are relative to the moment the script is run (NOW()/CURDATE()),
 -- so there are always past flights (for reports) and upcoming flights (for searching/buying).
 --
--- Every account's password is:  password   (stored as MD5)
+-- Every account's password is:  password   (stored as its MD5 hash, 5f4dcc3b5aa765d61d8327deb882cf99)
 --
 --   Airline staff:   ce_admin    (China Eastern, Admin + Operator)
 --                    ce_operator (China Eastern, Operator)
@@ -27,11 +27,11 @@ INSERT INTO airport (name, city) VALUES
     ('CAN', 'Guangzhou'), ('JFK', 'New York'), ('LAX', 'Los Angeles');
 
 INSERT INTO airline_staff (username, password, first_name, last_name, date_of_birth, airline_name) VALUES
-    ('ce_admin',    MD5('password'), 'Li',    'Wei',    '1985-03-14', 'China Eastern'),
-    ('ce_operator', MD5('password'), 'Zhang', 'Min',    '1990-07-02', 'China Eastern'),
-    ('ce_staff',    MD5('password'), 'Chen',  'Jing',   '1995-11-20', 'China Eastern'),
-    ('ca_admin',    MD5('password'), 'Wang',  'Fang',   '1982-01-30', 'Air China'),
-    ('dl_admin',    MD5('password'), 'John',  'Smith',  '1979-05-09', 'Delta');
+    ('ce_admin',    '5f4dcc3b5aa765d61d8327deb882cf99', 'Li',    'Wei',    '1985-03-14', 'China Eastern'),
+    ('ce_operator', '5f4dcc3b5aa765d61d8327deb882cf99', 'Zhang', 'Min',    '1990-07-02', 'China Eastern'),
+    ('ce_staff',    '5f4dcc3b5aa765d61d8327deb882cf99', 'Chen',  'Jing',   '1995-11-20', 'China Eastern'),
+    ('ca_admin',    '5f4dcc3b5aa765d61d8327deb882cf99', 'Wang',  'Fang',   '1982-01-30', 'Air China'),
+    ('dl_admin',    '5f4dcc3b5aa765d61d8327deb882cf99', 'John',  'Smith',  '1979-05-09', 'Delta');
 
 INSERT INTO staff_permission (username, permission) VALUES
     ('ce_admin', 'Admin'), ('ce_admin', 'Operator'),
@@ -45,9 +45,9 @@ INSERT INTO airplane (id, airline_name, seats) VALUES
     (1, 'Delta', 220);
 
 INSERT INTO booking_agent (email, password, booking_agent_id) VALUES
-    ('agent1@example.com', MD5('password'), 1001),
-    ('agent2@example.com', MD5('password'), 1002),
-    ('agent3@example.com', MD5('password'), 1003);
+    ('agent1@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 1001),
+    ('agent2@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 1002),
+    ('agent3@example.com', '5f4dcc3b5aa765d61d8327deb882cf99', 1003);
 
 INSERT INTO booking_agent_works_for (agent_email, airline_name) VALUES
     ('agent1@example.com', 'China Eastern'),
@@ -56,12 +56,12 @@ INSERT INTO booking_agent_works_for (agent_email, airline_name) VALUES
 
 INSERT INTO customer (email, name, password, building_number, street, city, state, phone_number,
                       passport_number, passport_expiration, passport_country, date_of_birth) VALUES
-    ('alice@example.com', 'Alice Wang',   MD5('password'), '1555', 'Century Ave',   'Shanghai',  'Shanghai', '13800000001', 'E10000001', '2030-06-30', 'China',  '1998-04-12'),
-    ('bob@example.com',   'Bob Lee',      MD5('password'), '20',   'Nanjing Rd',    'Shanghai',  'Shanghai', '13800000002', 'E10000002', '2029-01-15', 'China',  '1996-09-03'),
-    ('carol@example.com', 'Carol Zhou',   MD5('password'), '8',    'Chang An Ave',  'Beijing',   'Beijing',  '13800000003', 'E10000003', '2031-03-01', 'China',  '2000-12-25'),
-    ('david@example.com', 'David Brown',  MD5('password'), '370',  'Jay St',        'Brooklyn',  'NY',       '2125550104',  'P20000004', '2028-08-08', 'USA',    '1992-02-29'),
-    ('emma@example.com',  'Emma Garcia',  MD5('password'), '45',   'Sunset Blvd',   'Los Angeles','CA',      '3105550105',  'P20000005', '2032-10-10', 'USA',    '1999-06-18'),
-    ('frank@example.com', 'Frank Liu',    MD5('password'), '99',   'Tianhe Rd',     'Guangzhou', 'Guangdong','13800000006', 'E10000006', '2027-12-31', 'China',  '1988-03-07');
+    ('alice@example.com', 'Alice Wang',   '5f4dcc3b5aa765d61d8327deb882cf99', '1555', 'Century Ave',   'Shanghai',  'Shanghai', '13800000001', 'E10000001', '2030-06-30', 'China',  '1998-04-12'),
+    ('bob@example.com',   'Bob Lee',      '5f4dcc3b5aa765d61d8327deb882cf99', '20',   'Nanjing Rd',    'Shanghai',  'Shanghai', '13800000002', 'E10000002', '2029-01-15', 'China',  '1996-09-03'),
+    ('carol@example.com', 'Carol Zhou',   '5f4dcc3b5aa765d61d8327deb882cf99', '8',    'Chang An Ave',  'Beijing',   'Beijing',  '13800000003', 'E10000003', '2031-03-01', 'China',  '2000-12-25'),
+    ('david@example.com', 'David Brown',  '5f4dcc3b5aa765d61d8327deb882cf99', '370',  'Jay St',        'Brooklyn',  'NY',       '2125550104',  'P20000004', '2028-08-08', 'USA',    '1992-02-29'),
+    ('emma@example.com',  'Emma Garcia',  '5f4dcc3b5aa765d61d8327deb882cf99', '45',   'Sunset Blvd',   'Los Angeles','CA',      '3105550105',  'P20000005', '2032-10-10', 'USA',    '1999-06-18'),
+    ('frank@example.com', 'Frank Liu',    '5f4dcc3b5aa765d61d8327deb882cf99', '99',   'Tianhe Rd',     'Guangzhou', 'Guangdong','13800000006', 'E10000006', '2027-12-31', 'China',  '1988-03-07');
 
 INSERT INTO flight (airline_name, flight_num, departure_time, arrival_time, price, status, airplane_id, departure_airport, arrival_airport) VALUES
     ('China Eastern', 101, TIMESTAMP(CURDATE() + INTERVAL -300 DAY, '08:30:00'), TIMESTAMP(CURDATE() + INTERVAL -300 DAY, '08:30:00') + INTERVAL 2 HOUR, 800, 'Arrived', 1, 'PVG', 'PEK'),
