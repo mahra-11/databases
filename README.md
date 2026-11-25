@@ -10,16 +10,19 @@ booking agents and airline staff. Each one has their own home page and use cases
 ## Setup
 
 1. Install MySQL (or MariaDB) and Python 3.9 or newer.
-2. Create the tables and load the sample data:
+2. Create the database, then the tables and sample data:
    ```bash
-   mysql -u root -p < sql/schema.sql
+   mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS air_ticket"
    ```
    ```bash
-   mysql -u root -p < sql/sample_data.sql
+   mysql -u root -p air_ticket < sql/schema.sql
    ```
-   `schema.sql` creates the `air_ticket` database. **It drops and recreates all tables.**
+   ```bash
+   mysql -u root -p air_ticket < sql/sample_data.sql
+   ```
+   **`schema.sql` drops and recreates all tables.**
    Sample dates are relative to the moment you load them, so there are always past and upcoming flights.
-   Reload `sample_data.sql` (after `schema.sql`) before a demo to get fresh dates.
+   Reload `schema.sql` and then `sample_data.sql` before a demo to get fresh dates.
 3. Install the Python packages:
    ```bash
    pip install -r requirements.txt
@@ -33,6 +36,10 @@ booking agents and airline staff. Each one has their own home page and use cases
    ```bash
    python app.py
    ```
+
+### Hosting it online
+
+`DEPLOY.md` explains how to put the app on PythonAnywhere (free) so it can be used from a link.
 
 ### Sample accounts (password for every account: `password`)
 
@@ -86,7 +93,9 @@ Booking agents earn a fixed **10%** commission on the flight price (`COMMISSION_
 | `static/chart.umd.js` | Chart.js 4.4.1 (MIT license), bundled so the charts also work without internet access. |
 | `sql/schema.sql` | `CREATE TABLE` statements. |
 | `sql/sample_data.sql` | Sample airlines, airports, airplanes, users, flights and tickets. |
-| `requirements.txt` | Python packages: Flask and PyMySQL. |
+| `requirements.txt` | Python packages: Flask, PyMySQL, and cryptography (needed for MySQL 8+ logins). |
+| `DEPLOY.md` | Step-by-step guide for hosting the app on PythonAnywhere. |
+| `deploy/pythonanywhere_wsgi.py` | Template for the PythonAnywhere startup (WSGI) file that sets the database settings. |
 
 ## Security
 

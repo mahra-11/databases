@@ -6,8 +6,6 @@
 --   * booking_agent.booking_agent_id is UNIQUE
 --   * CHECK constraints on a few columns (permission values, seats, price)
 
-CREATE DATABASE IF NOT EXISTS air_ticket;
-USE air_ticket;
 
 DROP TABLE IF EXISTS ticket;
 DROP TABLE IF EXISTS booking_agent_works_for;

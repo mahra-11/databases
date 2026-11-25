@@ -21,7 +21,6 @@
 -- China Eastern flight 205 uses airplane 3, which only has 3 seats and is already full
 -- (handy for testing the "sold out" check).
 
-USE air_ticket;
 
 INSERT INTO airline (name) VALUES ('China Eastern'), ('Air China'), ('Delta');
 
