@@ -99,7 +99,14 @@ Booking agents earn a fixed **10%** commission on the flight price (`COMMISSION_
 
 ## Security
 
-* **Passwords** are stored as MD5 hashes. Login compares `md5(input)` with the stored value.
+* **Passwords** are stored as MD5 hashes, never as plain text.
+  * The hash is computed in Python with `hashlib.md5` (`md5()` in `auth_utils.py`), not with MySQL's `MD5()` function.
+    Newer MySQL versions don't have `MD5()`. The handout allows either: "MySQL's md5 function or a library provided with your host language".
+  * **Registration** stores `md5(password)` in the `password` column.
+  * **Login** computes `md5(typed password)` and looks for a row where both the username/email and the password hash match
+    (`routes/auth.py`). If no row matches, login fails.
+  * In `sql/sample_data.sql`, every account's password is `password`, stored as its MD5 hash
+    `5f4dcc3b5aa765d61d8327deb882cf99`. This is exactly what `hashlib.md5(b"password").hexdigest()` returns.
 * **SQL injection:** every query passes user input as `%s` parameters to PyMySQL, which escapes them.
   User input is never pasted into SQL text. The only formatted SQL pieces are fixed values chosen in
   the code (table names for login, `INTERVAL 1 MONTH` / `1 YEAR`).
