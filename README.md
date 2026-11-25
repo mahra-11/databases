@@ -112,6 +112,4 @@ Booking agents earn a fixed **10%** commission on the flight price (`COMMISSION_
   * Agents can only buy tickets for airlines listed in `booking_agent_works_for`, and only for registered customers.
   * Purchases are rejected for flights that are full, already departed or missing, and for any flight whose status is not `Upcoming` or `Delayed`. The flight row is locked during the purchase (`SELECT … FOR UPDATE`), so two people cannot buy the last seat at the same time.
 
-## Team
 
-_Fill in for team projects: who did what._
